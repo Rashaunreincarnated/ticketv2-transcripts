@@ -2,9 +2,27 @@
 <html>
 <head>
   <title>Transcript Viewer</title>
+  <style>
+    body { font-family: monospace; padding: 20px; background: #f0f0f0; }
+    pre { white-space: pre-wrap; word-wrap: break-word; background: #fff; padding: 15px; border-radius: 5px; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
+  </style>
 </head>
 <body>
   <h1>Transcript Viewer</h1>
-  <p>This page will display transcripts.</p>
+  <pre id="transcript">Loading...</pre>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const file = params.get("file");
+
+    if (file) {
+      fetch(file)
+        .then(res => res.text())
+        .then(text => document.getElementById("transcript").textContent = text)
+        .catch(err => document.getElementById("transcript").textContent = "Error loading transcript.");
+    } else {
+      document.getElementById("transcript").textContent = "No transcript specified.";
+    }
+  </script>
 </body>
 </html>
